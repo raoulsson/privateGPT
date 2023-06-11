@@ -19,7 +19,7 @@ help:                   	## show this help
 
 init: .venv/bin/activate		## create directories and virtual environment
 	@echo 'Init'
-	#@mkdir models
+	@mkdir models
 
 remove: 		## deactivates and deletes environment venv
 	@echo 'Removing virtual environment: venv'

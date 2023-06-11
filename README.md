@@ -7,8 +7,8 @@
 - This should create a .venv directory with all dependencies specified in requirements.txt in it.
 - Rename example.env to .env (`mv example.env .env`)
 - Download the trained model https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin (or newwer) and copy it into the models directory.
-- Run `python ingest.py` to scan and build the "knowledge db" from all your docs placed within the source_documents folder. Rerun whenever new data arrives. 
-- Then run `python privateGPT-v3.9.py`, to play with the "AI". (this version doesn't use the match keyword that has been introduced in Python 3.10).
+- Run `./run-import-data.sh` to scan and build the "knowledge db" from all your docs placed within the source_documents folder. Rerun whenever new data arrives. 
+- Then run `./run-queries.sh`, to play with the "AI". (this version doesn't use the match keyword that has been introduced in Python 3.10). Hit "exit" to quit.
 - To clean the dependencies, run `make remove`
 
 ## Original README:

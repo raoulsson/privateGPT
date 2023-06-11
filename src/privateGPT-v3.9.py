@@ -1,4 +1,12 @@
-#!/usr/bin/env python3
+from pathlib import Path
+
+my_file = Path("./models/ggml-gpt4all-j-v1.3-groovy.bin")
+if not my_file.is_file():
+    print("Missing LLM Model in directory 'models': ggml-gpt4all-j-v1.3-groovy.bin")
+    exit(1)
+
+print("Starting...")
+
 import os
 import argparse
 from dotenv import load_dotenv
@@ -8,6 +16,7 @@ from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.vectorstores import Chroma
 from langchain.llms import GPT4All, LlamaCpp
 from constants import CHROMA_SETTINGS
+
 
 load_dotenv()
 

@@ -1,4 +1,12 @@
-#!/usr/bin/env python3
+from pathlib import Path
+
+my_file = Path(".env")
+if not my_file.is_file():
+    print("Missing file .env'. Did you move example.env to .env?")
+    exit(1)
+
+print("Starting...")
+
 import os
 import glob
 from typing import List
@@ -26,13 +34,11 @@ from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.docstore.document import Document
 from constants import CHROMA_SETTINGS
 
-
 load_dotenv()
 
-
-# Load environment variables
+# Load environment variables
 persist_directory = os.environ.get('PERSIST_DIRECTORY')
-source_directory = os.environ.get('SOURCE_DIRECTORY', 'source_documents')
+source_directory = os.environ.get('SOURCE_DIRECTORY', '../source_documents')
 embeddings_model_name = os.environ.get('EMBEDDINGS_MODEL_NAME')
 chunk_size = 500
 chunk_overlap = 50
