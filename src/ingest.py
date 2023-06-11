@@ -1,6 +1,9 @@
 from pathlib import Path
+import os
 
-my_file = Path(".env")
+project_root = os.path.dirname(os.path.realpath(__file__)) + "/.."
+my_file = Path(project_root + "/.env")
+print(project_root)
 if not my_file.is_file():
     print("Missing file .env'. Did you move example.env to .env?")
     exit(1)
@@ -37,11 +40,14 @@ from constants import CHROMA_SETTINGS
 load_dotenv()
 
 # Load environment variables
-persist_directory = os.environ.get('PERSIST_DIRECTORY')
-source_directory = os.environ.get('SOURCE_DIRECTORY', '../source_documents')
+persist_directory = os.path.abspath(project_root + '/db')
+source_directory = os.path.abspath(project_root + '/source_documents')
 embeddings_model_name = os.environ.get('EMBEDDINGS_MODEL_NAME')
 chunk_size = 500
 chunk_overlap = 50
+
+print(f"Persist directory: {persist_directory}")
+print(f"Source directory: {source_directory}")
 
 
 # Custom document loaders
@@ -96,15 +102,26 @@ def load_single_document(file_path: str) -> List[Document]:
 
     raise ValueError(f"Unsupported file extension '{ext}'")
 
+
+def recurseCollect(currentDir, ext, acc: []):
+    for item in os.listdir(currentDir):
+        itemPath = os.path.join(currentDir, item)
+        if os.path.isdir(itemPath):
+            recurseCollect(itemPath, ext, acc)
+        else:
+            if itemPath.endswith(ext):
+                acc.append(itemPath)
+    return acc
+
+
 def load_documents(source_dir: str, ignored_files: List[str] = []) -> List[Document]:
     """
     Loads all documents from the source documents directory, ignoring specified files
     """
     all_files = []
     for ext in LOADER_MAPPING:
-        all_files.extend(
-            glob.glob(os.path.join(source_dir, f"**/*{ext}"), recursive=True)
-        )
+        all_files += recurseCollect(source_dir, ext, [])
+
     filtered_files = [file_path for file_path in all_files if file_path not in ignored_files]
 
     with Pool(processes=os.cpu_count()) as pool:

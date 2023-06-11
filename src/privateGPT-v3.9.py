@@ -64,9 +64,10 @@ def main():
         print(answer)
 
         # Print the relevant sources used for the answer
-        for document in docs:
-            print("\n> " + document.metadata["source"] + ":")
-            print(document.page_content)
+        #for document in docs:
+            #pass
+            #print("\n> " + document.metadata["source"] + ":")
+            #print(document.page_content)
 
 
 def parse_arguments():
